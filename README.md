@@ -14,4 +14,6 @@ Data captured every second and stored as CSV files with columns:
   2. Win multiplier
   3. Place multiplier
   
-  * Sss
+  * Race page URLs must be manually input into the source code.
+  * Race start times must be manually input into the source code.
+  * Only one race can be analyzed at a time.
