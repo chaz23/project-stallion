@@ -14,4 +14,4 @@ Data captured every second and stored as CSV files with columns:
   2. Win multiplier
   3. Place multiplier
   
-..* sss
+..*sss
