@@ -1,8 +1,8 @@
 # Documentation for Project Stallion Version Control
 
 ## Version 1.0.0
-Download data from a single race from Betfair and William Hill.
-Data captured every second and stored as CSV file with columns:
+Download data from individual races from Betfair and William Hill.
+Data captured every second and stored as CSV files with columns:
 
   **Betfair**
   1. Horse name
@@ -14,3 +14,4 @@ Data captured every second and stored as CSV file with columns:
   2. Win multiplier
   3. Place multiplier
   
+..* sss
