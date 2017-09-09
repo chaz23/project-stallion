@@ -1,3 +1,3 @@
-# project-stallion
+# Documentation for Project Stallion Version Control
 
-hello!!
+## Version 1.0.0
