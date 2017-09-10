@@ -7,8 +7,8 @@ import time
 
 dcap = dict(DesiredCapabilities.PHANTOMJS)
 dcap["phantomjs.page.settings.userAgent"] = (
-     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/53 "
-     "(KHTML, like Gecko) Chrome/15.0.87")
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/53 "
+  "(KHTML, like Gecko) Chrome/15.0.87")
 path_to_phantomjs = 'C:/Python34/Scripts/phantomjs.exe' # change path as needed
 browser = webdriver.PhantomJS(executable_path = path_to_phantomjs, desired_capabilities = dcap)
 
@@ -21,10 +21,10 @@ betfairFile = open('C:/Users/Charith/Desktop/testBetFair.txt', 'w')
 williamHillFile = open('C:/Users/Charith/Desktop/testWilliamHill.txt', 'w')
 
 # URL to Betfair race
-urlBetfair = 'https://www.betfair.com.au/exchange/plus/horse-racing/market/1.134052501'
+urlBetfair = 'https://www.betfair.com.au/exchange/plus/horse-racing/market/1.134055023'
 
 # URL to William Hill race
-urlWilliamHill = 'https://www.williamhill.com.au/horse-racing/67167516/casterton-2'
+urlWilliamHill = 'https://www.williamhill.com.au/horse-racing/67115814/kalgoorlie-3'
 
 
 # -------------------------------------------------------------
@@ -61,26 +61,41 @@ placeMultiplier2_williamHill = ') > div.RaceCardList_bodyRight_29m.RaceCardList_
 # -------------------------------------------------------------
 # open Betfair URL
 browser.execute_script("window.open('about:blank', 'tab1');")
+browser.switch_to.window(browser.window_handles[0])
 browser.get(urlBetfair)
 
 browser.implicitly_wait(10)
 
 # open William Hill URL
 browser.execute_script("window.open('about:blank', 'tab2');")
+browser.switch_to.window(browser.window_handles[1])
 browser.get(urlWilliamHill)
 
-startTime = datetime.datetime.strptime('Sep 10 2017  12:20', '%b %d %Y %H:%M')
+browser.switch_to.window(browser.window_handles[0])
+
+time.sleep(5)
+
+startTime = datetime.datetime.strptime('Sep 10 2017  16:32', '%b %d %Y %H:%M')
 
 # get current time
 currentTime = datetime.datetime.now()
 
-currentTab = 'tab2'
+handle = 0
 
 while currentTime < (startTime - datetime.timedelta(minutes=1)):
 	#sleep for one second
 	time.sleep(1)
 	
-	if currentTab == 'tab1': # looking at the Betfair page
+	if handle == 0:
+		handle = 1
+		browser.switch_to.window(browser.window_handles[1])
+	else:
+		handle = 0
+		browser.switch_to.window(browser.window_handles[0])
+		
+	print(handle)
+	if handle == 0: # looking at the Betfair page
+		print('betfair')
 		for num in range(1,9):
 			# concatenate CSS selectors
 			horseName_betfair = horseName1_betfair + str(num) + horseName2_betfair
@@ -91,62 +106,50 @@ while currentTime < (startTime - datetime.timedelta(minutes=1)):
 			try:
 				nameElement = browser.find_element_by_css_selector(horseName_betfair)
 				betfairFile.write(nameElement.text + ',')
-			except InvalidElementStateException:
-				betfairFile.write("Exception thrown" + ',')
+			except:
+				betfairFile.write("-100" + ',')
 			
 
 			# backElement = browser.find_element_by_css_selector(backMultiplier)
 			# file.write(backElement.text + ',')
 
-			layElement = browser.find_element_by_css_selector(layMultiplier_betfair)
-			betfairFile.write(layElement.text + ',')
+			try:
+				layElement = browser.find_element_by_css_selector(layMultiplier_betfair)
+				betfairFile.write(layElement.text + ',')
+			except:
+				betfairFile.write("-100" + ',')
 			
 			currentTime = datetime.datetime.now()
 			stringTime = datetime.datetime.strftime(currentTime, '%b %d %Y %H:%M:%S')
 			betfairFile.write(stringTime + '\n')
 			
-		currentTab = 'tab2'
-		browser.switch_to.window(currentTab)
-			
 	else: # looking at the William Hill page
+		print('william hill')
 		for num in range(1,16,2):
 			# print horse name
 			horseName_williamHill = horseName1_williamHill + str(num) + horseName2_williamHill
-			nameElement = browser.find_element_by_css_selector(horseName_williamHill)
-			nameElement = nameElement.text
-			name1 = nameElement.split('.')
-			name2 = name1[1].split('(')
-			williamHillFile.write(name2[0].strip() + ',')
+			try:
+				nameElement = browser.find_element_by_css_selector(horseName_williamHill)
+				nameElement = nameElement.text
+				name1 = nameElement.split('.')
+				name2 = name1[1].split('(')
+				williamHillFile.write(name2[0].strip() + ',')
+			except:
+				betfairFile.write("-100" + ',')
 			
 			# print horse place multipler
-			placeMultiplier_williamHill = placeMultiplier1_williamHill + str(num) + placeMultiplier1_williamHill
-			placeElement = browser.find_element_by_css_selector(placeMultiplier_williamHill)
-			williamHillFile.write(placeElement.text + ',')
-	
+			placeMultiplier_williamHill = placeMultiplier1_williamHill + str(num) + placeMultiplier2_williamHill
+			try:
+				placeElement = browser.find_element_by_css_selector(placeMultiplier_williamHill)
+				williamHillFile.write(placeElement.text + ',')
+			except:
+				betfairFile.write("-100" + ',')
+		
 			# print current time
 			currentTime = datetime.datetime.now()
 			stringTime = datetime.datetime.strftime(currentTime, '%b %d %Y %H:%M:%S')
 			williamHillFile.write(stringTime + '\n')
-	
-		currentTab = 'tab1'
-		browser.switch_to.window(currentTab)
 		
 # close file handle	
 betfairFile.close()
 williamHillFile.close()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
