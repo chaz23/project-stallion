@@ -2,7 +2,7 @@
 
 ## Version 1.0.0
 Download data from individual races from Betfair and William Hill.
-Data captured every second and stored as CSV files with columns:
+Capture data every second and store as CSV files with columns:
 
   **Betfair**
   1. Horse name
@@ -17,3 +17,7 @@ Data captured every second and stored as CSV files with columns:
   * Race page URLs must be manually input into the source code.
   * Race start times must be manually input into the source code.
   * Only one race can be analyzed at a time.
+  
+## Version 1.0.0
+Included headless browsing capabilities using PhantomJS.
+Ability to open multiple tabs using the same webdriver instance.
