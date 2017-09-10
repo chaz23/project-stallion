@@ -21,3 +21,5 @@ Capture data every second and store as CSV files with columns:
 ## Version 1.1.0
   * Included headless browsing capabilities using PhantomJS.
   * Ability to open multiple tabs using the same webdriver instance.
+  
+Toggle between Betfair and William Hill sites. Extract data and print to file.
