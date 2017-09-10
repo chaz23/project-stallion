@@ -18,6 +18,6 @@ Capture data every second and store as CSV files with columns:
   * Race start times must be manually input into the source code.
   * Only one race can be analyzed at a time.
   
-## Version 1.0.0
-Included headless browsing capabilities using PhantomJS.
-Ability to open multiple tabs using the same webdriver instance.
+## Version 1.1.0
+  * Included headless browsing capabilities using PhantomJS.
+  * Ability to open multiple tabs using the same webdriver instance.
