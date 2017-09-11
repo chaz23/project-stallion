@@ -28,3 +28,7 @@ Toggle between Betfair and William Hill sites. Extract data and print to file.
   * Ability to open multiple tabs using the same webdriver instance.
   * Added data extraction from Centrebet.
   * Time resolution ~5 seconds.
+
+## Version 1.3.0
+  * Added data extraction from Unibet.
+  * Unibet extraction making program extremely slow.
