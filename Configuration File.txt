@@ -1,0 +1,19 @@
+# Race start time
+Sep 12 2017  18:15
+# Code start time
+
+# Betfair URL
+https://www.betfair.com.au/exchange/plus/horse-racing/market/1.134108915
+# Betfair data file location
+C:/Users/Charith/Desktop/Betfair Test.txt
+# William Hill URL
+https://www.williamhill.com.au/horse-racing/67361066/england-catterick-1
+# William Hill data file location
+C:/Users/Charith/Desktop/William Hill Test.txt
+# Centrebet URL
+http://centrebet.com/#Racing/67361066
+# Centrebet data file location
+C:/Users/Charith/Desktop/Centrebet Test.txt
+# Unibet URL
+
+# Unibet data file location
