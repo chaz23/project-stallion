@@ -17,7 +17,7 @@ browser = webdriver.PhantomJS(executable_path = path_to_phantomjs, desired_capab
 #browser = webdriver.Chrome(executable_path = path_to_chromedriver)
 
 # URL to betfair race of interest
-url = 'https://www.williamhill.com.au/horse-racing/67193770/tamworth-1'
+url = 'https://www.williamhill.com.au/horse-racing/67361066/england-catterick-1'
 
 # open that URL
 browser.execute_script("window.open('about:blank', 'tab1');")
@@ -27,12 +27,12 @@ browser.get(url)
 browser.implicitly_wait(10)
 
 # xpaths for horse names
-horseName1_williamHill = '//*[@id="app"]/div/div/div[4]/div/div/div[1]/div/div/div[1]/div[4]/div[2]/div['
+horseName1_williamHill = '//*[@id="app"]/div/div/div[4]/div/div/div[1]/div/div/div[1]/div[3]/div[2]/div['
 
 horseName2_williamHill = ']/div[1]/div/div[2]/strong'
 
 # xpaths for place multipliers
-placeMultiplier1_williamHill = '//*[@id="app"]/div/div/div[4]/div/div/div[1]/div/div/div[1]/div[4]/div[2]/div['
+placeMultiplier1_williamHill = '//*[@id="app"]/div/div/div[4]/div/div/div[1]/div/div/div[1]/div[3]/div[2]/div['
 
 placeMultiplier2_williamHill = ']/div[2]/div[1]/div[3]/div/button[2]/span[2]'
 
@@ -58,10 +58,3 @@ for num in range(1, 2 * length, 2):
 		print(placeElement.text)
 	except:
 		print("-100")
-
-		
-		
-		
-		
-		
-		
