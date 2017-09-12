@@ -16,7 +16,7 @@ browser = webdriver.PhantomJS(executable_path = path_to_phantomjs, desired_capab
 #path_to_chromedriver = 'C:/Python34/Scripts/chromedriver_win32/chromedriver.exe' # change path as needed
 #browser = webdriver.Chrome(executable_path = path_to_chromedriver)
 
-url = 'http://centrebet.com/#Racing/67193770'
+url = 'http://centrebet.com/#Racing/67193775'
 
 browser.execute_script("window.open('about:blank', 'tab1');")
 browser.switch_to.window(browser.window_handles[0])
@@ -24,40 +24,14 @@ browser.get(url)
 
 browser.implicitly_wait(10)
 
-# find all name and place elements
-# count name and place elements
-# subtract crossed out names
-# check if num places = 2*name or 4*names
-
 tempNameElement = browser.find_elements_by_class_name('padLeft10')
 nameElement = tempNameElement[2::3]
 
-tempPlaceElement = browser.find_elements_by_class_name('txtOdds')
+placeElement = browser.find_elements_by_xpath('//*[starts-with(@id, "divFPP")]')
 
-numNames = 0
-
-for elem in nameElement:
-	var = elem.find_element_by_xpath('..')
-	var2 = var.get_attribute('class')
-	if var2 == 'left txtWht10':
-		numNames = numNames + 1
-print(numNames)
-numPlaces = 0
-for elem in tempPlaceElement:
-	numPlaces = numPlaces + 1
-print(numPlaces)	
-if numPlaces == (2 * numNames):
-	placeElement = tempPlaceElement[1::2]
-elif numPlaces == (4 * numNames):
-	placeElement = tempPlaceElement[2::4]
-else:
-	placeElement = tempPlaceElement[2::4] # CHANGE THIS; it will lead to undefined behaviour
-
-
-length = numNames
-print(length)
 i = 0
 j = 0
+length = len(placeElement)
 while i < length:
 	var = nameElement[i].find_element_by_xpath('..')
 	var2 = var.get_attribute('class')
@@ -70,5 +44,3 @@ while i < length:
 	else:
 		length = length + 1
 		i = i + 1
-
-
