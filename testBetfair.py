@@ -63,22 +63,3 @@ for num in range(1,numHorses+1):
 	except:
 		print("-100")
 	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

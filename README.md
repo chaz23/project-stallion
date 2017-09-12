@@ -32,3 +32,9 @@ Toggle between Betfair and William Hill sites. Extract data and print to file.
 ## Version 1.3.0
   * Added data extraction from Unibet.
   * Unibet extraction making program extremely slow.
+
+## Version 1.4.0
+  * Removed Unibet data extraction - only Betfair, William Hill and Centrebet.
+  * Time resolution ~1 second.
+  * All parameters are now read from configuration file.
+  * Updated data extraction methods from all 3 sites.
