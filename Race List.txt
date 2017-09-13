@@ -1,0 +1,21 @@
+# ***** RACE START TIME ***** (format eg: Sep 12 2017  23:35)
+Sep 13 2017  20:25
+# Race name
+Kenilworth 1
+# Betfair URL
+https://www.betfair.com.au/exchange/plus/horse-racing/market/1.134150894?nodeId=28383927
+# William Hill URL
+https://www.williamhill.com.au/horse-racing/67472691/kenilworth-1
+# Centrebet URL
+http://centrebet.com/#Racing/67472691
+# ***** RACE START TIME *****
+Sep 13 2017  23:00
+# Race name
+Uttoxeter 1
+# Betfair URL
+https://www.betfair.com.au/exchange/plus/horse-racing/market/1.134151120?nodeId=28383964
+# William Hill URL
+https://www.williamhill.com.au/horse-racing/67472676/england-uttoxeter-1
+# Centrebet URL
+http://centrebet.com/#Racing/67472676
+# END
