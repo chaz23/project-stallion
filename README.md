@@ -38,3 +38,7 @@ Toggle between Betfair and William Hill sites. Extract data and print to file.
   * Time resolution ~1 second.
   * All parameters are now read from configuration file.
   * Updated data extraction methods from all 3 sites.
+
+## Version 1.6.0
+  * Added functionality to analyze multiple races by launching each race as a subprocess.
+  * Race details mut be entered in advance into file 'Race List.txt'.
