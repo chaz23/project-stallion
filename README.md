@@ -1,19 +1,8 @@
 # Documentation for Project Stallion Version Control
 
 ## Version 1.0.0
-Download data from individual races from Betfair and William Hill.
-Capture data every second and store as CSV files with columns:
-
-  **Betfair**
-  1. Horse name
-  2. Back multiplier
-  3. Lay multiplier
-  
-  **William Hill**
-  1. Horse name
-  2. Win multiplier
-  3. Place multiplier
-  
+  * Download data from individual races from Betfair and William Hill.
+  * Capture data every second and store as CSV files.  
   * Race page URLs must be manually input into the source code.
   * Race start times must be manually input into the source code.
   * Only one race can be analyzed at a time.
@@ -42,3 +31,7 @@ Toggle between Betfair and William Hill sites. Extract data and print to file.
 ## Version 1.6.0
   * Added functionality to analyze multiple races by launching each race as a subprocess.
   * Race details mut be entered in advance into file 'Race List.txt'.
+
+## Version 1.7.0
+  * Bug fixes in place odds analysis function.
+  * Improved stability when reading William Hill pages.
