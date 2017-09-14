@@ -42,3 +42,7 @@ Toggle between Betfair and William Hill sites. Extract data and print to file.
 ## Version 1.6.0
   * Added functionality to analyze multiple races by launching each race as a subprocess.
   * Race details mut be entered in advance into file 'Race List.txt'.
+
+## Version 1.7.0
+  * Bug fixes in place odds analysis function.
+  * Improved stability when reading William Hill pages.
