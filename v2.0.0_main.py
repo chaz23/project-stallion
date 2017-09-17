@@ -26,18 +26,19 @@ configFileLocation = 'C:/Users/Charith/Desktop/Configuration File.txt'
 # read parameters from race list file
 with open(raceListFileLocation) as f:
     raceList = f.read().splitlines(1)
-	
+
 # get total number of races
-numRaces = int((len(raceList) - 1) / 8)
+numRaces = int((len(raceList) - 1) / 12)
 
 i = 0
 while i < numRaces:
 	# read parameters
-	startTime = raceList[((10 * i) + 1)]
-	raceName = raceList[((10 * i) + 3)]
-	betfairURL = raceList[((10 * i) + 5)]
-	williamHillURL = raceList[((10 * i) + 7)]
-	centrebetURL = raceList[((10 * i) + 9)]
+	startTime = raceList[((12 * i) + 1)]
+	raceName = raceList[((12 * i) + 3)]
+	betfairURL = raceList[((12 * i) + 5)]
+	williamHillURL = raceList[((12 * i) + 7)]
+	centrebetURL = raceList[((12 * i) + 9)]
+	unibetURL = raceList[((12 * i) + 11)]
 	print(startTime)
 	# print to configuration file
 	with open(configFileLocation, 'r') as configFile:
@@ -49,6 +50,7 @@ while i < numRaces:
 	betfairFileName = dataPath + '/' + str((startTime.replace(":","")).rstrip('\n')) + '_Betfair_' + str(raceName[0]) + '.csv\n'
 	williamHillFileName = dataPath + '/'  + str((startTime.replace(":","")).rstrip('\n')) + '_William Hill_' + str(raceName[0]) + '.csv\n'
 	centrebetFileName = dataPath + '/' + str((startTime.replace(":","")).rstrip('\n')) + '_Centrebet_' + str(raceName[0]) + '.csv\n'
+	unibetFileName = dataPath + '/' + str((startTime.replace(":","")).rstrip('\n')) + '_Unibet_' + str(raceName[0]) + '.csv\n'
 	
 	data[1] = startTime
 	data[3] = betfairURL
@@ -57,6 +59,8 @@ while i < numRaces:
 	data[9] = williamHillFileName
 	data[11] = centrebetURL
 	data[13] = centrebetFileName
+	data[15] = unibetURL
+	data[17] = unibetFileName
     
 	# write everything back
 	with open(configFileLocation, 'w') as configFile:
@@ -68,8 +72,9 @@ while i < numRaces:
 	# get current time
 	currentTime = datetime.datetime.now()
 
-	while currentTime < (raceStartTime - datetime.timedelta(minutes=130)):
+	while currentTime < (raceStartTime - datetime.timedelta(minutes=90)):
 		time.sleep(60)
+		currentTime = datetime.datetime.now()
 		
 	# launch subprocess
 	print('launching subprocess ' + str(i + 1))
@@ -80,6 +85,3 @@ while i < numRaces:
 	time.sleep(100)
 	
 	i = i + 1
-	
-
-	
