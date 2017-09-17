@@ -7,25 +7,29 @@ import time
 import winsound
 
 # function to analyze lay and place multipliers
-def analyzePrices(nameList_betfair, priceList_betfair, nameList_williamHill, priceList_williamHill, nameList_centrebet, priceList_centrebet):
+def analyzePrices(nameList_betfair, priceList_betfair, nameList_williamHill, priceList_williamHill, nameList_centrebet, priceList_centrebet, nameList_unibet, priceList_unibet):
 	try:
 		# convert names to lowercase
 		nameList_betfair = [x.lower() for x in nameList_betfair]
 		nameList_williamHill = [x.lower() for x in nameList_williamHill]
 		nameList_centrebet = [x.lower() for x in nameList_centrebet]
+		nameList_unibet = [x.lower() for x in nameList_unibet]
 		
 		# removes apostrophes
 		nameList_betfair = [x.replace("'","") for x in nameList_betfair]
 		nameList_williamHill = [x.replace("'","") for x in nameList_williamHill]
 		nameList_centrebet = [x.replace("'","") for x in nameList_centrebet]
+		nameList_unibet = [x.replace("'","") for x in nameList_unibet]
 		
 		namePrice_betfair = [list(a) for a in zip(nameList_betfair, priceList_betfair)]
 		namePrice_williamHill = [list(a) for a in zip(nameList_williamHill, priceList_williamHill)]
 		namePrice_centrebet = [list(a) for a in zip(nameList_centrebet, priceList_centrebet)]
+		namePrice_unibet = [list(a) for a in zip(nameList_unibet, priceList_unibet)]
 
 		# sort back sites according to betfair name order
 		namePrice_williamHill.sort(key=lambda x: nameList_betfair.index(x[0]))
 		namePrice_centrebet.sort(key=lambda x: nameList_betfair.index(x[0]))
+		namePrice_unibet.sort(key=lambda x: nameList_betfair.index(x[0]))
 		
 		length = len(namePrice_betfair)
 		
@@ -38,13 +42,12 @@ def analyzePrices(nameList_betfair, priceList_betfair, nameList_williamHill, pri
 			try:
 				williamHillDiff = float(namePrice_williamHill[i][1]) - float(namePrice_betfair[i][1])
 				centrebetDiff = float(namePrice_centrebet[i][1]) - float(namePrice_betfair[i][1])
+				unibetDiff = float(namePrice_unibet[i][1]) - float(namePrice_betfair[i][1])
 				
 				# alert if opportunity exists
 				if williamHillDiff > 0:
 					print('Arb on William Hill')
 					print('Horse: ' + namePrice_williamHill[i][0])
-					winsound.Beep(freq, duration)
-					winsound.Beep(freq, duration)
 					winsound.Beep(freq, duration)
 					currentTime = datetime.datetime.now()
 					stringTime = datetime.datetime.strftime(currentTime, '%b %d %Y %H:%M:%S')
@@ -53,7 +56,12 @@ def analyzePrices(nameList_betfair, priceList_betfair, nameList_williamHill, pri
 					print('Arb on Centrebet')
 					print('Horse: ' + namePrice_centrebet[i][0])
 					winsound.Beep(freq, duration)
-					winsound.Beep(freq, duration)
+					currentTime = datetime.datetime.now()
+					stringTime = datetime.datetime.strftime(currentTime, '%b %d %Y %H:%M:%S')
+					print('Time: ' + stringTime)
+				elif unibetDiff > 0:
+					print('Arb on Unibet')
+					print('Horse: ' + namePrice_unibet[i][0])
 					winsound.Beep(freq, duration)
 					currentTime = datetime.datetime.now()
 					stringTime = datetime.datetime.strftime(currentTime, '%b %d %Y %H:%M:%S')
@@ -89,10 +97,12 @@ browser = webdriver.PhantomJS(executable_path = path_to_phantomjs, desired_capab
 betfairFileLocation = configList[5]
 williamHillFileLocation = configList[9]
 centrebetFileLocation = configList[13]
+unibetFileLocation = configList[17]
 
 betfairFile = open(betfairFileLocation, 'w')
 williamHillFile = open(williamHillFileLocation, 'w')
 centrebetFile = open(centrebetFileLocation, 'w')
+unibetFile = open(unibetFileLocation, 'w')
 
 # URL to Betfair race
 urlBetfair = configList[3]
@@ -102,6 +112,9 @@ urlWilliamHill = configList[7]
 
 # URL to centrebet race
 urlCentrebet = configList[11]
+
+# URL to unibet race
+urlUnibet = configList[15]
 
 # -------------------------------------------------------------
 # get xpaths from Betfair
@@ -133,6 +146,24 @@ placeMultiplier2_williamHill = ']/div[2]/div['
 placeMultiplier3_williamHill = ']/div[2]/div[1]/div[3]/div/button[2]/span[2]'
 
 # -------------------------------------------------------------
+# get xpaths from unibet
+
+# xpaths to header names
+headerName1_unibet = '//*[@id="center-column"]/div/div/div/div['
+headerName2_unibet = ']/table/thead/tr[2]/th['
+headerName3_unibet = ']'
+
+# xpaths to horse names
+horseName1_unibet = '//*[@id="center-column"]/div/div/div/div[3]/table/tbody/tr['
+horseName2_unibet = ']/td[3]/div/div/span/a'
+
+# xpaths to place multipliers	
+placeName1_unibet = '//*[@id="center-column"]/div/div/div/div['
+placeName2_unibet = ']/table/tbody/tr['
+placeName3_unibet = ']/td['
+placeName4_unibet = ']/div/button'
+
+# -------------------------------------------------------------
 # open Betfair URL
 browser.execute_script("window.open('about:blank', 'tab1');")
 browser.switch_to.window(browser.window_handles[0])
@@ -140,6 +171,7 @@ browser.get(urlBetfair)
 
 browser.implicitly_wait(30)
 
+# --------------------------------------------------
 # open William Hill URL
 browser.execute_script("window.open('about:blank', 'tab2');")
 browser.switch_to.window(browser.window_handles[1])
@@ -155,10 +187,70 @@ except:
 
 browser.switch_to.window(browser.window_handles[0])
 
+# ---------------------------------------------------
 # open centrebet URL
 browser.execute_script("window.open('about:blank', 'tab3');")
 browser.switch_to.window(browser.window_handles[2])
 browser.get(urlCentrebet)
+
+browser.switch_to.window(browser.window_handles[0])
+
+# ---------------------------------------------------
+# open unibet URL
+browser.execute_script("window.open('about:blank', 'tab4');")
+browser.switch_to.window(browser.window_handles[3])
+browser.get(urlUnibet)
+
+frame = browser.find_element_by_css_selector('#uarc')
+browser.switch_to.frame(frame)
+
+# number of table subheaders - eg: fixed, mid tote etc.
+i = 0
+j = 2
+while i == 0:
+	try:
+		headerName_unibet = headerName1_unibet + str(j) + headerName2_unibet + '1' + headerName3_unibet
+		var = browser.find_element_by_xpath(headerName_unibet)
+		i = 1
+		numSubheaders_unibet = j
+	except:
+		j = j + 1
+
+# 'k' will give the column in which place odds are located
+i = 0
+k = 3
+while i == 0:
+	headerName_unibet = headerName1_unibet + str(j) + headerName2_unibet + str(k) + headerName3_unibet
+	var = browser.find_element_by_xpath(headerName_unibet)
+
+	if var.text == "Fixed":
+		i = 1
+	else:
+		k = k + 1	
+
+col = k + 5
+		
+# find number of horses
+tempNameElement_unibet = browser.find_elements_by_class_name('event-runner__name')
+length_unibet = len(tempNameElement_unibet)
+
+# find which unibet horses are scratched
+i = 1
+j = 0
+count = length_unibet
+numList_unibet = []
+while i <= count:
+	horseName_unibet = horseName1_unibet + str(i) + horseName2_unibet
+	nameElement = browser.find_element_by_xpath(horseName_unibet)
+	var = nameElement.get_attribute('class')
+	if var == 'event-runner__name':
+		numList_unibet.insert(j,i)
+		j = j + 1
+	else:
+		count = count + 1
+	i = i + 1
+
+# --------------------------------------------------------
 
 startTimeString = configList[1]
 startTime = datetime.datetime.strptime(startTimeString, '%b %d %Y %H:%M')
@@ -166,7 +258,7 @@ startTime = datetime.datetime.strptime(startTimeString, '%b %d %Y %H:%M')
 # get current time
 currentTime = datetime.datetime.now()
 
-handle = 2
+handle = 3
 
 while currentTime < (startTime - datetime.timedelta(minutes=1)):
 
@@ -176,6 +268,9 @@ while currentTime < (startTime - datetime.timedelta(minutes=1)):
 	elif handle == 1:
 		handle = 2
 		browser.switch_to.window(browser.window_handles[2])
+	elif handle == 2:
+		handle = 3
+		browser.switch_to.window(browser.window_handles[3])
 	else:
 		handle = 0
 		browser.switch_to.window(browser.window_handles[0])
@@ -214,7 +309,7 @@ while currentTime < (startTime - datetime.timedelta(minutes=1)):
 			betfairFile.write('Betfair\n')
 			
 	elif handle == 1: # looking at the William Hill page
-		#print('william hill')
+		print('william hill')
 		numHorses = browser.find_elements_by_class_name('Runner_competitor_2Ui')
 		length = len(numHorses)
 
@@ -257,8 +352,8 @@ while currentTime < (startTime - datetime.timedelta(minutes=1)):
 			# williamHillFile.write('William Hill\n')
 			
 			
-	else: # looking at Centrebet page
-		#print('centrebet')
+	elif handle == 2: # looking at Centrebet page
+		print('centrebet')
 		nameList_centrebet = []
 		priceList_centrebet = []
 		try:
@@ -296,8 +391,37 @@ while currentTime < (startTime - datetime.timedelta(minutes=1)):
 			nameList_centrebet.insert(0,'Error')
 			priceList_centrebet.insert(0,'Error')
 	
-	
-		analyzePrices(nameList_betfair, priceList_betfair, nameList_williamHill, priceList_williamHill, nameList_centrebet, priceList_centrebet)
+	else: # looking at unibet site
+		print('unibet')
+		frame = browser.find_element_by_css_selector('#uarc')
+		browser.switch_to.frame(frame)
+		
+		nameList_unibet = []
+		priceList_unibet = []
+		
+		try:
+			j = 0
+			for i in numList_unibet:
+				placeName_unibet = placeName1_unibet + str(numSubheaders_unibet) + placeName2_unibet + str(i) + placeName3_unibet + str(k + 5) + placeName4_unibet
+				placeElement = browser.find_element_by_xpath(placeName_unibet)
+				unibetFile.write((tempNameElement_unibet[j].text).replace("'","") + ',')
+				unibetFile.write(placeElement.text + ',')
+				
+				nameList_unibet.insert(j,(tempNameElement_unibet[j].text))
+				priceList_unibet.insert(j,placeElement.text)
+				
+				currentTime = datetime.datetime.now()
+				stringTime = datetime.datetime.strftime(currentTime, '%b %d %Y %H:%M:%S')
+				unibetFile.write(stringTime + ',')
+				unibetFile.write('Unibet\n')
+				
+				j = j + 1
+		except:
+			unibetFile.write('Error,' + 'Error,' + 'Error,' + 'Error\n')
+			nameList_unibet.insert(0,'Error')
+			priceList_unibet.insert(0,'Error')
+		
+		analyzePrices(nameList_betfair, priceList_betfair, nameList_williamHill, priceList_williamHill, nameList_centrebet, priceList_centrebet, nameList_unibet, priceList_unibet)
 	
 # close file handle	
 betfairFile.close()
