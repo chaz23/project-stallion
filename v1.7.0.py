@@ -4,53 +4,63 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import numpy
 import datetime
 import time
+import winsound
 
 # function to analyze lay and place multipliers
 def analyzePrices(nameList_betfair, priceList_betfair, nameList_williamHill, priceList_williamHill, nameList_centrebet, priceList_centrebet):
-	try:
+	#try:
 		# convert names to lowercase
-		nameList_betfair = [x.lower() for x in nameList_betfair]
-		nameList_williamHill = [x.lower() for x in nameList_williamHill]
-		nameList_centrebet = [x.lower() for x in nameList_centrebet]
-		
-		# removes apostrophes
-		nameList_betfair = [x.replace("'","") for x in nameList_betfair]
-		nameList_williamHill = [x.replace("'","") for x in nameList_williamHill]
-		nameList_centrebet = [x.replace("'","") for x in nameList_centrebet]
-		
-		namePrice_betfair = [list(a) for a in zip(nameList_betfair, priceList_betfair)]
-		namePrice_williamHill = [list(a) for a in zip(nameList_williamHill, priceList_williamHill)]
-		namePrice_centrebet = [list(a) for a in zip(nameList_centrebet, priceList_centrebet)]
+	nameList_betfair = [x.lower() for x in nameList_betfair]
+	nameList_williamHill = [x.lower() for x in nameList_williamHill]
+	nameList_centrebet = [x.lower() for x in nameList_centrebet]
+	
+	# removes apostrophes
+	nameList_betfair = [x.replace("'","") for x in nameList_betfair]
+	nameList_williamHill = [x.replace("'","") for x in nameList_williamHill]
+	nameList_centrebet = [x.replace("'","") for x in nameList_centrebet]
+	
+	namePrice_betfair = [list(a) for a in zip(nameList_betfair, priceList_betfair)]
+	namePrice_williamHill = [list(a) for a in zip(nameList_williamHill, priceList_williamHill)]
+	namePrice_centrebet = [list(a) for a in zip(nameList_centrebet, priceList_centrebet)]
 
-		# sort back sites according to betfair name order
-		namePrice_williamHill.sort(key=lambda x: nameList_betfair.index(x[0]))
-		namePrice_centrebet.sort(key=lambda x: nameList_betfair.index(x[0]))
+	# sort back sites according to betfair name order
+	namePrice_williamHill.sort(key=lambda x: nameList_betfair.index(x[0]))
+	namePrice_centrebet.sort(key=lambda x: nameList_betfair.index(x[0]))
+	
+	length = len(namePrice_betfair)
+	
+	duration = 300  # millisecond
+	freq = 1000  # Hz
+	
+	# analyze prices
+	i = 0
+	while i < length:
+		williamHillDiff = float(namePrice_williamHill[i][1]) - float(namePrice_betfair[i][1])
+		centrebetDiff = float(namePrice_centrebet[i][1]) - float(namePrice_betfair[i][1])
 		
-		length = len(namePrice_betfair)
+		# alert if opportunity exists
+		if williamHillDiff > 0:
+			print('Arb on William Hill')
+			print('Horse: ' + namePrice_williamHill[i][0])
+			winsound.Beep(freq, duration)
+			winsound.Beep(freq, duration)
+			winsound.Beep(freq, duration)
+			currentTime = datetime.datetime.now()
+			stringTime = datetime.datetime.strftime(currentTime, '%b %d %Y %H:%M:%S')
+			print('Time: ' + stringTime)
+		elif centrebetDiff > 0:
+			print('Arb on Centrebet')
+			print('Horse: ' + namePrice_centrebet[i][0])
+			winsound.Beep(freq, duration)
+			winsound.Beep(freq, duration)
+			winsound.Beep(freq, duration)
+			currentTime = datetime.datetime.now()
+			stringTime = datetime.datetime.strftime(currentTime, '%b %d %Y %H:%M:%S')
+			print('Time: ' + stringTime)
 		
-		# analyze prices
-		i = 0
-		while i < length:
-			williamHillDiff = float(namePrice_williamHill[i][1]) - float(namePrice_betfair[i][1])
-			centrebetDiff = float(namePrice_centrebet[i][1]) - float(namePrice_betfair[i][1])
-			
-			# alert if opportunity exists
-			if williamHillDiff > 0:
-				print('Arb on William Hill')
-				print('Horse: ' + namePrice_williamHill[i][0])
-				currentTime = datetime.datetime.now()
-				stringTime = datetime.datetime.strftime(currentTime, '%b %d %Y %H:%M:%S')
-				print('Time: 'stringTime)
-			elif centrebetDiff > 0:
-				print('Arb on Centrebet')
-				print('Horse: ' + namePrice_centrebet[i][0])
-				currentTime = datetime.datetime.now()
-				stringTime = datetime.datetime.strftime(currentTime, '%b %d %Y %H:%M:%S')
-				print('Time: 'stringTime)
-			
-			i = i + 1
-	except:
-		print('Error while analyzing odds')
+		i = i + 1
+	# except:
+		# print('Error while analyzing odds')
 	
 	return
 	
