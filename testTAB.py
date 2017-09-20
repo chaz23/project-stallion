@@ -17,7 +17,7 @@ browser = webdriver.PhantomJS(executable_path = path_to_phantomjs, desired_capab
 #browser = webdriver.Chrome(executable_path = path_to_chromedriver)
 
 # URL to TAB race of interest
-url = 'https://www.tab.com.au/racing/2017-09-17/HALIDON/HAL/R/6'
+url = 'https://www.tab.com.au/racing/2017-09-20/WARWICK-FARM/WFM/R/3'
 
 # open that URL
 browser.execute_script("window.open('about:blank', 'tab1');")
@@ -65,17 +65,7 @@ while i <= numHorses_tab:
 	nameElement_tab = browser.find_element_by_xpath(horseName_tab)
 	placeElement_tab = browser.find_element_by_xpath(placeName_tab).get_attribute('textContent')
 	if placeElement_tab != 'SCR':
-		print(nameElement_tab.text)
+		var = (nameElement_tab.text).split('(')
+		print(var[0])
 		print(placeElement_tab)
 	i = i + 1
-
-
-
-
-
-
-
-
-
-
-
