@@ -57,7 +57,6 @@ while j == 0:
 num_tab = browser.find_elements_by_class_name('runner-name-wrapper')
 numHorses_tab = len(num_tab)
 
-# MAKE SURE fixed place odds are in column 7
 i = 1
 while i <= numHorses_tab:
 	horseName_tab = horseName1_tab + str(i) + horseName2_tab
